@@ -1,0 +1,12 @@
+1. git clone
+2. npm install
+3. create .env file and populate with information using env.example
+4. In a UNIX terminal (MAC or Linux/GitBash) run   ./restart.sh
+   In a Windows terminal run   restart.bat
+
+5. If above script doesn't work run
+        docker-compose up --build -d
+        when you want to close and restart the docker container run:
+
+        docker-compose down -v  (-v will delete all data in db. If you want to keep data don't use -v)
+        docker-compose up --build -d
