@@ -1,0 +1,24 @@
+GET users
+http://localhost:3000/users/
+
+POST register user
+http://localhost:3000/users/
+    {
+    "username": "Arda123",
+    "password": "Password!",
+    "email": "arda@hotmail.co.uk",
+    "role": "Patient",
+    "first_name": "Arda",
+    "last_name": "Arslan",
+    "date_of_birth": "2002-09-30",
+    "gender": "male"
+    }
+
+PUT update password
+http://localhost:3000/users/:id/password
+    {
+    "newPassword": "new_password_here"
+    }
+
+DELETE user
+http://localhost:3000/users/:id

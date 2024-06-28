@@ -8,5 +8,5 @@
         docker-compose up --build -d
         when you want to close and restart the docker container run:
 
-        docker-compose down -v
+        docker-compose down -v  (-v will delete all data in db. If you want to keep data don't use -v)
         docker-compose up --build -d
