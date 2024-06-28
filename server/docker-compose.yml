@@ -1,12 +1,11 @@
-version: '3.8'
 
 services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: MASS_DB
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -24,7 +23,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:1234@postgres:5432/MASS_DB  # Adjust according to your setup
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     volumes:
       - ./src:/app/src
       - ./package.json:/app/package.json
@@ -32,7 +31,6 @@ services:
       - ./node_modules:/app/node_modules 
     networks:
       - app-network
-
 
 networks:
   app-network:
