@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import pool from "../db/pool";
-import { User } from "../models/user";
+import { User } from "../models/User";
 
 // GET all users route
 export const getUsers = async (req: Request, res: Response) => {
