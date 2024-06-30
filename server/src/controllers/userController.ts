@@ -20,14 +20,9 @@ export const getUsers = async (req: Request, res: Response) => {
 // POST Register user route
 export const createUser = async (req: Request, res: Response) => {
   const {
-    username,
-    password,
     email,
+    password,
     role,
-    first_name,
-    last_name,
-    date_of_birth,
-    gender,
   }: User = req.body;
 
   try {
@@ -35,18 +30,13 @@ export const createUser = async (req: Request, res: Response) => {
 
     const client = await pool.connect();
     const result = await client.query(
-      `INSERT INTO users (username, password, email, role, first_name, last_name, date_of_birth, gender) 
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         RETURNING user_id, username, email, role, first_name, last_name, date_of_birth, gender, created_at`,
+      `INSERT INTO users (email, password, role) 
+         VALUES ($1, $2, $3)
+         RETURNING user_id, email, role created_at`,
       [
-        username,
-        hashedPassword,
         email,
+        hashedPassword,
         role,
-        first_name,
-        last_name,
-        date_of_birth,
-        gender,
       ]
     );
     const newUser: User = result.rows[0];
@@ -73,7 +63,7 @@ export const updateUserPassword = async (req: Request, res: Response) => {
       `UPDATE users 
          SET password = $1
          WHERE user_id = $2
-         RETURNING user_id, username, email, role, first_name, last_name, date_of_birth, gender, created_at`,
+         RETURNING user_id, email, role created_at`,
       [hashedPassword, userId]
     );
     const updatedUser: User = result.rows[0];
@@ -94,7 +84,7 @@ export const deleteUser = async (req: Request, res: Response) => {
       const result = await client.query(
         `DELETE FROM users 
          WHERE user_id = $1
-         RETURNING user_id, username, email, role, first_name, last_name, date_of_birth, gender, created_at`,
+         RETURNING user_id, email, role, created_at`,
         [userId]
       );
       const deletedUser = result.rows[0];
