@@ -7,6 +7,7 @@ const port = 3000;
 app.use(express.json());
 
 app.use("/users", routes);
+app.use("/patients", routes);
 
 
 app.listen(port, () => {

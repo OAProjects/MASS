@@ -1,24 +1,42 @@
-GET users
-http://localhost:3000/users/
+----Users----
 
-POST register user
-http://localhost:3000/users/
-    {
-    "username": "Arda123",
+GET All Users
+http://localhost:3000/users
+
+POST Register User
+http://localhost:3000/users
+{
+    "email": "example@hotmail.co.uk",
     "password": "Password!",
-    "email": "arda@hotmail.co.uk",
-    "role": "Patient",
-    "first_name": "Arda",
-    "last_name": "Arslan",
-    "date_of_birth": "2002-09-30",
-    "gender": "male"
-    }
+    "role": "patient"
+}
 
-PUT update password
+PUT Update Password
 http://localhost:3000/users/:id/password
-    {
+{
     "newPassword": "new_password_here"
-    }
+}
 
-DELETE user
+DELETE User
 http://localhost:3000/users/:id
+
+----Patients----
+
+GET All Patients
+http://localhost:3000/patients/profile
+
+POST Create Patient profile
+http://localhost:3000/patients/profile
+{
+    "user_id": 1,
+    "first_name": "first_name_here",
+    "last_name": "last_name_here",
+    "date_of_birth": "2002-09-30",
+    "gender": "female"
+}
+
+PUT Update Patient Profile Details
+http://localhost:3000/patients/:id/profile
+{
+    "first_name": "new_first_name_here"
+}
