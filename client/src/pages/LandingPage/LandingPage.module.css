@@ -1,0 +1,43 @@
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  padding: 10px;
+  line-height: 1.5;
+  max-width: 700px;
+}
+
+@media (max-width: 768px) {
+  .center {
+    flex-direction: column; /* row layout for medium and larger screens */
+    text-align: left;
+  }
+
+  .container {
+    max-width: 600px;
+  }
+
+  img {
+    margin-left: 20px;
+    margin-top: 0;
+  }
+
+  button {
+    margin-top: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 700px;
+    flex-direction: column;
+  }
+
+  img {
+    max-width: 50%;
+  }
+}
