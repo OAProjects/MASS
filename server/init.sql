@@ -3,7 +3,7 @@ CREATE DATABASE MASS_DB;
 \c MASS_DB;
 
 -- Users Table
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE users (
 );
 
 -- Patients Table
-CREATE TABLE patients (
+CREATE TABLE IF NOT EXISTS patients (
     patient_id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
     first_name VARCHAR(255) NOT NULL,

@@ -19,7 +19,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const client = await pool.connect();
 
     // Fetch all users
-    const usersResult = await client.query("SELECT * FROM users");
+    const usersResult = await client.query("SELECT user_id, email, role, created_at FROM users");
     const users: User[] = usersResult.rows;
 
     // Fetch all profiles
