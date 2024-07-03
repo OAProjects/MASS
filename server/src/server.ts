@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use("/users", routes);
 app.use("/patients", routes);
+app.use("/doctors", routes);
 
 
 app.listen(port, () => {
