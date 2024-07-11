@@ -1,9 +1,12 @@
-import React from 'react'
+import Logout from "../../components/Logout";
 
 const PatientPage = () => {
   return (
-    <div>PatientPage</div>
-  )
-}
+    <div>
+      PatientPage
+      <Logout />
+    </div>
+  );
+};
 
-export default PatientPage
+export default PatientPage;

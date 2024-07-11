@@ -3,6 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
+import AuthService from '../../services/auth';
 import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
@@ -21,6 +22,8 @@ const LoginForm = () => {
       .post('http://localhost:3000/users/login', values)
       .then((response) => {
         console.log('User logged in successfully:', response.data);
+        // Store JWT token
+        AuthService.setToken(response.data.token);
         // Show success message
         setLoginSuccess(true);
         setTimeout(() => {
@@ -93,7 +96,7 @@ const LoginForm = () => {
         )}
       </Formik>
       <p className={styles.loginLink}>
-        Don't have an account? <Link to="/register" className={styles.loginLinkText}>Sign up</Link>
+        Don&apos;t have an account? <Link to="/register" className={styles.loginLinkText}>Sign up</Link>
       </p>
     </div>
   );
