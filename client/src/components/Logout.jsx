@@ -5,7 +5,7 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    AuthService.removeToken();
+    AuthService.logout();
     navigate("/login");
   };
 

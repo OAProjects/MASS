@@ -18,6 +18,29 @@ const generateAccessToken = (user: User) => {
   );
 };
 
+// Function to get user details from token
+export const getUserDetails = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id; // userId is extracted from the token in the authenticateToken middleware
+    const client = await pool.connect();
+    const result = await client.query(
+      "SELECT user_id, email, role, created_at FROM users WHERE user_id = $1",
+      [userId]
+    );
+    const user = result.rows[0];
+    client.release();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching user details", err);
+    res.status(500).json({ message: "Error fetching user details" });
+  }
+};
+
 // GET all users route
 export const getUsers = async (req: Request, res: Response) => {
   try {

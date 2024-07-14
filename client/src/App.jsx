@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ErrorPage from "./pages/Error/ErrorPage";
 import PrivateRoute from "./components/privateRoutes";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="*" element={<ErrorPage />}></Route>
+          <Route path="/home" element={<Home />}></Route>
         </Routes>
       </div>
     </Router>
