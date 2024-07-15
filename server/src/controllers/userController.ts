@@ -54,19 +54,33 @@ export const getUsers = async (req: Request, res: Response) => {
     const usersResult = await client.query(
       "SELECT user_id, email, role, created_at FROM users"
     );
-    const users: User[] = usersResult.rows;
+    const users = usersResult.rows;
 
-    // Fetch all profiles
-    const profilesResult = await client.query("SELECT * FROM patients");
-    const profiles = profilesResult.rows;
+    // Fetch all patient profiles
+    const patientProfilesResult = await client.query("SELECT * FROM patients");
+    const patientProfiles = patientProfilesResult.rows;
+
+    // Fetch all doctor profiles
+    const doctorProfilesResult = await client.query("SELECT * FROM doctors");
+    const doctorProfiles = doctorProfilesResult.rows;
 
     client.release();
 
-    // Combine users and profiles
+    // Combine users with their corresponding profiles
     const usersWithProfiles = users.map((user) => {
-      const profile =
-        profiles.find((profile) => profile.user_id === user.user_id) || null;
-      return { ...user, profile };
+      let profile = null;
+
+      if (user.role === "Patient") {
+        profile = patientProfiles.find(
+          (profile) => profile.user_id === user.user_id
+        );
+      } else if (user.role === "Doctor") {
+        profile = doctorProfiles.find(
+          (profile) => profile.user_id === user.user_id
+        );
+      }
+
+      return { ...user, profile: profile || null };
     });
 
     res.json(usersWithProfiles);

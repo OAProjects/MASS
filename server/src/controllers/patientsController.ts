@@ -19,13 +19,10 @@ export const getPatients = async (req: Request, res: Response) => {
   }
 };
 
-// POST Create patient profile route
+// POST create patient profile route
 export const createPatientProfile = async (req: Request, res: Response) => {
   const { first_name, last_name, date_of_birth, gender }: Patient = req.body;
   const userId = req.user?.id;
-
-  console.log("Request Body:", req.body); // Log the request body
-  console.log("User ID:", userId); // Check user ID
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized: No user ID" });
@@ -33,14 +30,23 @@ export const createPatientProfile = async (req: Request, res: Response) => {
 
   try {
     const client = await pool.connect();
+
+    // Check if a profile already exists
+    const existingProfile = await client.query(
+      `SELECT * FROM patients WHERE user_id = $1`,
+      [userId]
+    );
+
+    if (existingProfile.rows.length > 0) {
+      return res.status(400).json({ message: "Profile already exists" });
+    }
+
     const result = await client.query(
       `INSERT INTO patients (user_id, first_name, last_name, date_of_birth, gender) 
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
       [userId, first_name, last_name, date_of_birth, gender]
     );
-
-    console.log("Insert Result:", result.rows); // Log the result
 
     const newPatient: Patient = result.rows[0];
     client.release();
@@ -59,7 +65,8 @@ export const createPatientProfile = async (req: Request, res: Response) => {
 // PUT update patient profile
 export const updatePatientProfile = async (req: Request, res: Response) => {
   const patientId = req.params.id;
-  const { first_name, last_name, date_of_birth, gender }: Partial<Patient> = req.body;
+  const { first_name, last_name, date_of_birth, gender }: Partial<Patient> =
+    req.body;
 
   // Check if req.user is defined
   if (!req.user) {
@@ -77,7 +84,12 @@ export const updatePatientProfile = async (req: Request, res: Response) => {
 
     if (patientResult.rows.length === 0) {
       client.release();
-      return res.status(404).json({ message: "Patient not found or does not belong to the authenticated user" });
+      return res
+        .status(404)
+        .json({
+          message:
+            "Patient not found or does not belong to the authenticated user",
+        });
     }
 
     const result = await client.query(
@@ -104,4 +116,3 @@ export const updatePatientProfile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error updating patient profile" });
   }
 };
-
