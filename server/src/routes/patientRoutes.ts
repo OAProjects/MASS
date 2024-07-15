@@ -12,6 +12,6 @@ const router = express.Router();
 
 router.get("/", getPatients);
 router.post("/profile", authenticateToken, createPatientProfile);
-router.put("/profile/:id", authenticateToken, updatePatientProfile);
+router.put("/:id/profile", authenticateToken, updatePatientProfile);
 
 export default router;

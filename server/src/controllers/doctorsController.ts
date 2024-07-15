@@ -71,13 +71,8 @@ export const createDoctorProfile = async (req: Request, res: Response) => {
 // PUT update doctor profile
 export const updateDoctorProfile = async (req: Request, res: Response) => {
   const doctorId = req.params.id;
-  const {
-    first_name,
-    last_name,
-    date_of_birth,
-    gender,
-    specialisation,
-  }: Partial<Doctor> = req.body;
+  const { first_name, last_name, date_of_birth, gender, specialisation }: Partial<Doctor> =
+    req.body;
 
   // Check if req.user is defined
   if (!req.user) {
@@ -87,7 +82,7 @@ export const updateDoctorProfile = async (req: Request, res: Response) => {
   try {
     const client = await pool.connect();
 
-    // Ensure the patient belongs to the authenticated user
+    // Ensure the doctor belongs to the authenticated user
     const doctorResult = await client.query(
       `SELECT * FROM doctors WHERE doctor_id = $1 AND user_id = $2`,
       [doctorId, req.user.id]
@@ -95,30 +90,24 @@ export const updateDoctorProfile = async (req: Request, res: Response) => {
 
     if (doctorResult.rows.length === 0) {
       client.release();
-      return res.status(404).json({
-        message:
-          "Doctor not found or does not belong to the authenticated user",
-      });
+      return res
+        .status(404)
+        .json({
+          message:
+            "Doctor not found or does not belong to the authenticated user",
+        });
     }
 
     const result = await client.query(
-      `UPDATE doctors 
+      `UPDATE doctors
        SET first_name = COALESCE($1, first_name),
            last_name = COALESCE($2, last_name),
            date_of_birth = COALESCE($3, date_of_birth),
            gender = COALESCE($4, gender)
-           specialisation = COALESCE($5, specialisation)
+					 specialisation = COALESCE($5, specialisation)
        WHERE doctor_id = $6 AND user_id = $7
        RETURNING *`,
-      [
-        first_name,
-        last_name,
-        date_of_birth,
-        gender,
-        specialisation,
-        doctorId,
-        req.user.id,
-      ]
+      [first_name, last_name, date_of_birth, gender, specialisation, doctorId, req.user.id]
     );
 
     const updatedDoctor = result.rows[0];

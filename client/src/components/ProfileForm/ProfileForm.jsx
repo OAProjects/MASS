@@ -48,7 +48,7 @@ const ProfileForm = () => {
     try {
       if (user.role === "Patient") {
         const url = isProfileCreated
-          ? `http://localhost:3000/patients/profile/${user.user_id}`
+          ? `http://localhost:3000/patients/${user.user_id}/profile`
           : `http://localhost:3000/patients/profile`;
         const method = isProfileCreated ? "put" : "post";
 
@@ -60,7 +60,7 @@ const ProfileForm = () => {
         alert(response.data.message);
       } else if (user.role === "Doctor") {
         const url = isProfileCreated
-          ? `http://localhost:3000/doctors/profile/${user.user_id}`
+          ? `http://localhost:3000/doctors/${user.user_id}/profile`
           : `http://localhost:3000/doctors/profile`;
         const method = isProfileCreated ? "put" : "post";
 
