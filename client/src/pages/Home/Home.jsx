@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth";
-import Logout from "../../components/Logout";
+import Logout from "../../components/Logout/Logout";
 
 const Home = () => {
   const [user, setUser] = useState(null);

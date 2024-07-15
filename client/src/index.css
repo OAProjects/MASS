@@ -3,7 +3,7 @@
   --bg-color: #202020;
   --primary-color: #bb86fc;
   --variant-color: #3700b3;
-  --text-color: #FFFFFF;
+  --text-color: #ffffff;
 
   --heading-font: "Oswald", open-sans;
   --text-font: "Lato", open-sans;
@@ -23,27 +23,51 @@
   padding: 0;
   box-sizing: border-box;
 }
+@layer base {
+  html {
+    font-family: var(--text-font);
+  }
+  body {
+    background-color: var(--bg-color);
+    font-family: var(--text-font);
+    font-size: var(--desktop-text-fs);
+  }
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
 
-body {
-  background-color: var(--bg-color);
-  font-family: var(--text-font);
-  font-size: var(--desktop-text-fs);
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--heading-font);
+    color: var(--text-color);
+  }
+  
+  p,
+  a {
+    text-decoration: none;
+  }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--heading-font);
-  font-size: var(--desktop-header-fs);
-  color: var(--text-color);
+.link {
+  padding: 0.75rem 0.6rem;
+  display: flex;
+  border-radius: 0.375rem;
+  gap: 1.5rem;
+  align-items: center;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  font-weight: 500;
 }
 
-p,
-a {
-  color: var(--text-color);
-  text-decoration: none;
+.active {
+  background-color: #ebf8ff;
+  color: #1e40af;
 }
+/*
 
 button {
   padding: 10px;
@@ -61,4 +85,4 @@ button:hover {
 }
 button a {
   color: var(--bg-color);
-}
+} */

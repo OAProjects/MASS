@@ -22,18 +22,29 @@ export const getPatients = async (req: Request, res: Response) => {
 // POST Create patient profile route
 export const createPatientProfile = async (req: Request, res: Response) => {
   const { first_name, last_name, date_of_birth, gender }: Patient = req.body;
-  const userId = req.user.id; // Retrieve user ID from JWT
+  const userId = req.user?.id;
+
+  console.log("Request Body:", req.body); // Log the request body
+  console.log("User ID:", userId); // Check user ID
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized: No user ID" });
+  }
 
   try {
     const client = await pool.connect();
     const result = await client.query(
       `INSERT INTO patients (user_id, first_name, last_name, date_of_birth, gender) 
-         VALUES ($1, $2, $3, $4, $5)
-         RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
       [userId, first_name, last_name, date_of_birth, gender]
     );
+
+    console.log("Insert Result:", result.rows); // Log the result
+
     const newPatient: Patient = result.rows[0];
     client.release();
+
     res.status(201).json({
       message: "Patient profile created successfully",
       patient: newPatient,
@@ -44,10 +55,16 @@ export const createPatientProfile = async (req: Request, res: Response) => {
   }
 };
 
+
 // PUT update patient profile
 export const updatePatientProfile = async (req: Request, res: Response) => {
   const patientId = req.params.id;
   const { first_name, last_name, date_of_birth, gender }: Partial<Patient> = req.body;
+
+  // Check if req.user is defined
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
   try {
     const client = await pool.connect();
@@ -87,3 +104,4 @@ export const updatePatientProfile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error updating patient profile" });
   }
 };
+

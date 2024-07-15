@@ -9,7 +9,7 @@ const { JWT_SECRET } = process.env;
 declare global {
   namespace Express {
     interface Request {
-      user?: any; // Adjust the type according to your user object
+      user?: { id: number; role: string }; // Define the expected user type
     }
   }
 }
@@ -26,7 +26,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     if (err) {
       return res.sendStatus(403); // If token is invalid, return 403 Forbidden
     }
-    req.user = user; // Attach user to request object
+    req.user = user as { id: number; role: string }; // Cast user to the defined type
     next(); // Proceed to the next middleware/route handler
   });
 };
