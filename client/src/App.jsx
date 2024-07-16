@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ErrorPage from "./pages/Error/ErrorPage";
@@ -12,8 +11,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/home"

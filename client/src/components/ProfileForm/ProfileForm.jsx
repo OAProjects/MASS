@@ -20,7 +20,6 @@ const ProfileForm = () => {
     specialisation: "",
   });
 
-  const [isProfileCreated, setIsProfileCreated] = useState(false);
 
   useEffect(() => {
     AuthService.fetchUserDetails().then((response) => {
@@ -33,7 +32,6 @@ const ProfileForm = () => {
         gender: userData.gender || "",
         specialisation: userData.specialisation || "",
       });
-      setIsProfileCreated(!!userData.first_name); // Check if the profile is already created
       console.log("User data:", userData); // Log user data
     });
   }, []);
@@ -42,33 +40,64 @@ const ProfileForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleProfileSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData); // Log the form data
     try {
       if (user.role === "Patient") {
-        const url = isProfileCreated
-          ? `http://localhost:3000/patients/${user.user_id}/profile`
-          : `http://localhost:3000/patients/profile`;
-        const method = isProfileCreated ? "put" : "post";
-
-        const response = await axios[method](url, formData, {
-          headers: {
-            Authorization: `Bearer ${AuthService.getToken()}`,
-          },
-        });
+        const response = await axios.post(
+          "http://localhost:3000/patients/profile",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${AuthService.getToken()}`,
+            },
+          }
+        );
         alert(response.data.message);
       } else if (user.role === "Doctor") {
-        const url = isProfileCreated
-          ? `http://localhost:3000/doctors/${user.user_id}/profile`
-          : `http://localhost:3000/doctors/profile`;
-        const method = isProfileCreated ? "put" : "post";
+        const response = await axios.post(
+          "http://localhost:3000/doctors/profile",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${AuthService.getToken()}`,
+            },
+          }
+        );
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error updating profile", error);
+      alert("Failed to update profile");
+    }
+  };
 
-        const response = await axios[method](url, formData, {
-          headers: {
-            Authorization: `Bearer ${AuthService.getToken()}`,
-          },
-        });
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    console.log("Update form submitted:", formData); // Log the form data
+    try {
+      if (user.role === "Patient") {
+        const response = await axios.put(
+          `http://localhost:3000/patients/${user.user_id}/profile`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${AuthService.getToken()}`,
+            },
+          }
+        );
+        alert(response.data.message);
+      } else if (user.role === "Doctor") {
+        const response = await axios.put(
+          `http://localhost:3000/doctors/${user.user_id}/profile`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${AuthService.getToken()}`,
+            },
+          }
+        );
         alert(response.data.message);
       }
     } catch (error) {
@@ -78,7 +107,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div>
         <label>First Name</label>
         <input
@@ -143,8 +172,11 @@ const ProfileForm = () => {
           </select>
         </div>
       )}
-      <button type="submit">
-        {isProfileCreated ? "Update Profile" : "Create Profile"}
+      <button type="submit" onClick={handleProfileSubmit}>
+        Create Profile
+      </button>
+      <button type="submit" onClick={handleProfileUpdate}>
+        Update Profile
       </button>
     </form>
   );

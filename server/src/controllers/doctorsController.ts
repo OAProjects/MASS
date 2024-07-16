@@ -67,12 +67,16 @@ export const createDoctorProfile = async (req: Request, res: Response) => {
   }
 };
 
-
 // PUT update doctor profile
 export const updateDoctorProfile = async (req: Request, res: Response) => {
   const doctorId = req.params.id;
-  const { first_name, last_name, date_of_birth, gender, specialisation }: Partial<Doctor> =
-    req.body;
+  const {
+    first_name,
+    last_name,
+    date_of_birth,
+    gender,
+    specialisation,
+  }: Partial<Doctor> = req.body;
 
   // Check if req.user is defined
   if (!req.user) {
@@ -90,12 +94,10 @@ export const updateDoctorProfile = async (req: Request, res: Response) => {
 
     if (doctorResult.rows.length === 0) {
       client.release();
-      return res
-        .status(404)
-        .json({
-          message:
-            "Doctor not found or does not belong to the authenticated user",
-        });
+      return res.status(404).json({
+        message:
+          "Doctor not found or does not belong to the authenticated user",
+      });
     }
 
     const result = await client.query(
@@ -103,11 +105,19 @@ export const updateDoctorProfile = async (req: Request, res: Response) => {
        SET first_name = COALESCE($1, first_name),
            last_name = COALESCE($2, last_name),
            date_of_birth = COALESCE($3, date_of_birth),
-           gender = COALESCE($4, gender)
-					 specialisation = COALESCE($5, specialisation)
+           gender = COALESCE($4, gender),
+           specialisation = COALESCE($5, specialisation)
        WHERE doctor_id = $6 AND user_id = $7
        RETURNING *`,
-      [first_name, last_name, date_of_birth, gender, specialisation, doctorId, req.user.id]
+      [
+        first_name,
+        last_name,
+        date_of_birth,
+        gender,
+        specialisation,
+        doctorId,
+        req.user.id,
+      ]
     );
 
     const updatedDoctor = result.rows[0];
@@ -117,7 +127,10 @@ export const updateDoctorProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Doctor not found" });
     }
 
-    res.json(updatedDoctor);
+    res.status(201).json({
+      message: "Doctor profile updated successfully",
+      doctor: updatedDoctor,
+    });
   } catch (err) {
     console.error("Error updating doctor profile", err);
     res.status(500).json({ message: "Error updating doctor profile" });
