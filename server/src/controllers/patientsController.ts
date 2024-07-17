@@ -61,7 +61,6 @@ export const createPatientProfile = async (req: Request, res: Response) => {
   }
 };
 
-
 // PUT update patient profile
 export const updatePatientProfile = async (req: Request, res: Response) => {
   const patientId = req.params.id;
@@ -84,12 +83,10 @@ export const updatePatientProfile = async (req: Request, res: Response) => {
 
     if (patientResult.rows.length === 0) {
       client.release();
-      return res
-        .status(404)
-        .json({
-          message:
-            "Patient not found or does not belong to the authenticated user",
-        });
+      return res.status(404).json({
+        message:
+          "Patient not found or does not belong to the authenticated user",
+      });
     }
 
     const result = await client.query(
@@ -110,7 +107,10 @@ export const updatePatientProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Patient not found" });
     }
 
-    res.json(updatedPatient);
+    res.status(201).json({
+      message: "Patient profile updated successfully",
+      patient: updatedPatient,
+    });
   } catch (err) {
     console.error("Error updating patient profile", err);
     res.status(500).json({ message: "Error updating patient profile" });

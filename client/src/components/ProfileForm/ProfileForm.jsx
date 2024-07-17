@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AuthService from "../../services/auth";
 import axios from "axios";
+import styles from "./ProfileForm.module.css";
 
 const genders = ["male", "female", "other"];
 const specialisations = [
@@ -19,7 +20,6 @@ const ProfileForm = () => {
     gender: "",
     specialisation: "",
   });
-
 
   useEffect(() => {
     AuthService.fetchUserDetails().then((response) => {
@@ -107,78 +107,111 @@ const ProfileForm = () => {
   };
 
   return (
-    <form>
-      <div>
-        <label>First Name</label>
-        <input
-          type="text"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Last Name</label>
-        <input
-          type="text"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Date of Birth</label>
-        <input
-          type="date"
-          name="date_of_birth"
-          value={formData.date_of_birth}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Gender</label>
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select gender</option>
-          {genders.map((gender) => (
-            <option key={gender} value={gender}>
-              {gender}
-            </option>
-          ))}
-        </select>
-      </div>
-      {user.role === "Doctor" && (
-        <div>
-          <label>Specialisation</label>
-          <select
-            name="specialisation"
-            value={formData.specialisation}
+    <div
+      className={`w-11/12 max-w-[700px] px-10 py-20 rounded-3xl border-2 border-gray-100 shadow-2xl mt-12 ml-4 ${styles.main_container}`}
+    >
+      <h2 className="text-3xl font-semibold">Profile</h2>
+      <p className="font-medium text-lg text-gray-500 mt-4">
+        Please complete your profile.
+      </p>
+      <form className="mt-8">
+        <div className="flex flex-col mb-4">
+          <label className="text-lg font-medium" htmlFor="first_name">
+            First Name
+          </label>
+          <input
+            type="text"
+            name="first_name"
+            value={formData.first_name}
             onChange={handleChange}
             required
+            className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label className="text-lg font-medium" htmlFor="last_name">
+            Last Name
+          </label>
+          <input
+            type="text"
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+            required
+            className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label className="text-lg font-medium" htmlFor="date_of_birth">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            name="date_of_birth"
+            value={formData.date_of_birth}
+            onChange={handleChange}
+            required
+            className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+          />
+        </div>
+        <div className="flex flex-col mb-4">
+          <label className="text-lg font-medium" htmlFor="gender">
+            Gender
+          </label>
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+            className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
           >
-            <option value="">Select specialisation</option>
-            {specialisations.map((spec) => (
-              <option key={spec} value={spec}>
-                {spec}
+            <option value="">Select gender</option>
+            {genders.map((gender) => (
+              <option key={gender} value={gender}>
+                {gender}
               </option>
             ))}
           </select>
         </div>
-      )}
-      <button type="submit" onClick={handleProfileSubmit}>
-        Create Profile
-      </button>
-      <button type="submit" onClick={handleProfileUpdate}>
-        Update Profile
-      </button>
-    </form>
+        {user.role === "Doctor" && (
+          <div className="flex flex-col mb-4">
+            <label className="text-lg font-medium" htmlFor="specialisation">
+              Specialisation
+            </label>
+            <select
+              name="specialisation"
+              value={formData.specialisation}
+              onChange={handleChange}
+              required
+              className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+            >
+              <option value="">Select specialisation</option>
+              {specialisations.map((spec) => (
+                <option key={spec} value={spec}>
+                  {spec}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        <div className="flex justify-between mt-8">
+          <button
+            type="submit"
+            onClick={handleProfileSubmit}
+            className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-violet-500 rounded-xl text-white font-bold text-lg"
+          >
+            Create Profile
+          </button>
+          <button
+            type="submit"
+            onClick={handleProfileUpdate}
+            className="ml-4 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
+          >
+            Update Profile
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

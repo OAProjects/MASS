@@ -1,11 +1,10 @@
-// src/components/LoginForm.js
-
 import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import AuthService from "../../services/auth";
+import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -48,7 +47,9 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-11/12 max-w-[700px] px-10 py-20 rounded-3xl bg-white border-2 border-gray-100">
+    <div
+      className={`w-11/12 max-w-[700px] px-10 py-20 rounded-3xl border-2 border-gray-100 shadow-2xl ${styles.main_container}`}
+    >
       <h1 className="text-5xl font-semibold">Welcome Back</h1>
       <p className="font-medium text-lg text-gray-500 mt-4">
         Hello! Please enter your details.
@@ -144,7 +145,10 @@ const LoginForm = () => {
       </Formik>
       <div className="mt-8 flex justify-center items-center">
         <p className="font-medium text-base">Don&apos;t have an account?</p>
-        <Link to="/" className="ml-2 font-medium text-base text-violet-500 hover:underline">
+        <Link
+          to="/"
+          className="ml-2 font-medium text-base text-violet-500 hover:underline"
+        >
           Sign up
         </Link>
       </div>

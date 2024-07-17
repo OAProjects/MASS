@@ -2,8 +2,7 @@ import ProfileForm from "../../components/ProfileForm/ProfileForm";
 
 const Profile = () => {
   return (
-    <div>
-      Profile
+    <div className="flex ">
       <ProfileForm />
     </div>
   );
