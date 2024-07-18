@@ -90,20 +90,20 @@ const Sidebar = () => {
             <ul className="whitespace-pre text-[0.9rem] flex flex-col gap-5 border-b border-slate-300">
               <li>
                 <NavLink
-                  to="/home"
-                  className="link text-black flex items-center gap-3"
-                >
-                  <AiOutlineAppstore size={23} className="min-w-max" />
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
                   to="/profile"
                   className="link text-black flex items-center gap-3"
                 >
                   <BsPerson size={23} className="min-w-max" />
                   Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/storage"
+                  className="link text-black flex items-center gap-3"
+                >
+                  <HiOutlineDatabase size={23} className="min-w-max" />
+                  Storage
                 </NavLink>
               </li>
               <li className="pb-2">

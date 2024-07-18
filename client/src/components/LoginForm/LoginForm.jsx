@@ -31,7 +31,7 @@ const LoginForm = () => {
         });
         setLoginSuccess(true);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/profile");
         }, 1500); // Redirect after 1.5 seconds
       })
       .catch((error) => {

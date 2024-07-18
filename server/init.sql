@@ -41,5 +41,5 @@ CREATE TABLE IF NOT EXISTS appointments (
     doctor_id INTEGER NOT NULL REFERENCES doctors(doctor_id),
     appointment_date TIMESTAMP NOT NULL,
     reason VARCHAR(255) NOT NULL CHECK (reason IN ('Routine Check-up', 'Follow-up', 'Consultation', 'Emergency')),
-    status VARCHAR(20) NOT NULL CHECK (status IN ('scheduled', 'canceled', 'completed')),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('upcoming', 'canceled', 'past')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

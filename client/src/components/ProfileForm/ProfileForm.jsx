@@ -108,7 +108,7 @@ const ProfileForm = () => {
 
   return (
     <div
-      className={`w-11/12 max-w-[700px] px-10 py-20 rounded-3xl border-2 border-gray-100 shadow-2xl mt-12 ml-4 ${styles.main_container}`}
+      className={`w-11/12 max-w-[700px] px-10 py-10 rounded-3xl border-2 border-gray-100 shadow-2xl ${styles.main_container}`}
     >
       <h2 className="text-3xl font-semibold">Profile</h2>
       <p className="font-medium text-lg text-gray-500 mt-4">
@@ -198,14 +198,14 @@ const ProfileForm = () => {
           <button
             type="submit"
             onClick={handleProfileSubmit}
-            className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-violet-500 rounded-xl text-white font-bold text-lg"
+            className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-violet-500 rounded-xl text-white font-bold text-lg w-1/2"
           >
             Create Profile
           </button>
           <button
             type="submit"
             onClick={handleProfileUpdate}
-            className="ml-4 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
+            className="ml-4 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg w-1/2"
           >
             Update Profile
           </button>

@@ -4,6 +4,6 @@ export interface Appointment {
     doctor_id: number;
     appointment_date: Date;
     reason: 'Routine Check-up' | 'Follow-up' | 'Consultation' | 'Emergency';
-    status: 'scheduled' | 'canceled' | 'completed';
+    status: 'upcoming' | 'canceled' | 'past';
     created_at: Date;
 }
